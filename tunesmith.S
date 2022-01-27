@@ -7,9 +7,9 @@ padd 	 .equ 	 $1701
 timer	 .equ 	 $1704
 ttimer	 .equ 	 $1707
 stimer	 .equ 	 $170f
-sad		 .equ 	 $1740
+sad	 .equ 	 $1740
 sadd	 .equ 	 $1741
-sbd		 .equ 	 $1742
+sbd	 .equ 	 $1742
 pbdd	 .equ 	 $1743
 keyin	 .equ 	 $1f40 
 getkey	 .equ 	 $1f6a
@@ -113,7 +113,7 @@ letter:  .byte   $08
          .byte   $f7
          .byte   $ed
 
-         .org    disnts
+         .org    $0100
 disnts:  lda     #$01
          sta     dntcnt
 nxtnot:  lda     dntcnt
@@ -258,7 +258,7 @@ nunote:  lda     #$06
          sta     notptr
          lda     #$0f
          sta     keyptr
-playb:  jsr     keyin
+playb:   jsr     keyin
          jsr     getkey
          cmp     keyptr
          beq     gtnote
@@ -334,33 +334,33 @@ dnotes:  ldx     #$ff
          jmp     disnts
 
 delay:	 lda 	 deltim
-		 sta 	 timed
+	 sta 	 timed
 dela: 	 lda 	 #$ff
-		 sta 	 timer
+	 sta 	 timer
 test: 	 bit	 ttimer
-		 bpl	 test
-		 dec 	 timec
-		 bne	 dela
-		 dec 	 timed
-		 bne	 timea
-		 rts
+	 bpl	 test
+	 dec 	 timec
+	 bne	 dela
+	 dec 	 timed
+	 bne	 timea
+	 rts
 
-		 .org 	 $02dd
+	 .org 	 $02dd
 tone: 	 lda 	 #$01
-		 sta	 padd
+	 sta	 padd
 sound: 	 lda 	 #$20
-		 sta	 stimer
+	 sta	 stimer
 notex: 	 ldx 	 prmnot
 nwait:	 dex
-		 bne 	 nwait
-		 inc	 pad
-		 lda	 #$80
-		 bit 	 ttimer
-		 bmi 	 timout
-		 jmp 	 notex
+	 bne 	 nwait
+	 inc	 pad
+	 lda	 #$80
+	 bit 	 ttimer
+	 bmi 	 timout
+	 jmp 	 notex
 timout:  dec 	 plenth
-		 bne 	 sound
-		 rts
+	 bne 	 sound
+	 rts
 
          .org    $0300
 platun:  lda     notnum
@@ -402,10 +402,10 @@ savex:   lda     #$00
          jsr     disply
          jmp     platun
 
-         .org    gethi
-         jsr     keyin
+         .org    $0356
+gethi:   jsr     keyin
          jsr     getkey
-         cmp     #hinote
+         cmp     #$07
          bne     retrnb
          lda     shpflg
          cmp     #$00
@@ -414,20 +414,19 @@ savex:   lda     #$00
          lda     hishrp,x
          sta     tnote
          jmp     retrnb
-
 loadhi:  ldx     pntptr
          lda     hinote,x
          sta     tnote
-retrnb:   rts
+retrnb:  rts
 
-         .org    $0386
+         .org    $03896
 getsrp:  jsr     keyin
          jsr     getkey
          cmp     #$05
          bne     retrnc
          lda     #$01
          sta     shpflg
-         ldx     pntptr
+loadhi:  ldx     pntptr
          lda     shpnot,x
          sta     tnote
 retrnc:  rts
