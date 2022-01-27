@@ -419,7 +419,7 @@ loadhi:  ldx     pntptr
          sta     tnote
 retrnb:  rts
 
-         .org    $03896
+         .org    $0386
 getsrp:  jsr     keyin
          jsr     getkey
          cmp     #$05
