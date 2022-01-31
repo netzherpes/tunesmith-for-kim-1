@@ -1,4 +1,4 @@
-
+.segment = "CODE"
  ;*****************************
  ;* KIM - The Tunesmith       *
  ;*                           *
@@ -13,19 +13,19 @@
  ;*****************************
 
 
-pad 	 .equ 	 $1700 	;data register
-padd 	 .equ 	 $1701 	;data direction register
-timer	 .equ 	 $1704	;set Timer
-ttimer	 .equ 	 $1707	;test Timer
-stimer	 .equ 	 $170f	;start Timer
-sad	 .equ 	 $1740	;System Data Register A
-sadd	 .equ 	 $1741	;System Data direction A
-sbd	 .equ 	 $1742	;System Data Register B
-pbdd	 .equ 	 $1743	;System Data Direction B
-keyin	 .equ 	 $1f40 	;Keypad input
-getkey	 .equ 	 $1f6a	;get Keyboard input
-tuntbl   .equ  	 $0060 	;Tune table
-lnttbl   .equ  	 $00A8	;Length Table
+pad 	 = 	 $1700 	;data register
+padd 	 = 	 $1701 	;data direction register
+timer	 = 	 $1704	;set Timer
+ttimer	 = 	 $1707	;test Timer
+stimer	 = 	 $170f	;start Timer
+sad	 	 = 	 $1740	;System Data Register A
+sadd	 = 	 $1741	;System Data direction A
+sbd	 	 = 	 $1742	;System Data Register B
+pbdd	 = 	 $1743	;System Data Direction B
+keyin	 = 	 $1f40 	;Keypad input
+getkey	 = 	 $1f6a	;get Keyboard input
+tuntbl   =   $0060 	;Tune table
+lnttbl   =   $00A8	;Length Table
 
 
          .org    $0000
@@ -46,7 +46,7 @@ hinote:  .byte   $7b	;G
          .byte   $48	;E
          .byte   $43	;F
 		 
-shpnote: .byte   $ed	;G_sharp, A_flat
+shpnot:  .byte   $ed	;G_sharp, A_flat
          .byte   $d2	;A_sharp, B_flat
          .byte   $01	;and so on
          .byte   $b0
@@ -68,8 +68,8 @@ hishrp:  .byte   $74	;G_sharp, A_flat
          .byte   $00
 
 deltim:  .byte   $02	;Delay time
-timd:    .byte   $00
-timc:    .byte   $00
+timed:   .byte   $00
+timec:   .byte   $00
 savflg:  .byte   $00	;save flag 
 tlenth:  .byte   $00	;temp length 
 notptr:  .byte   $00	;note pointer 
@@ -131,6 +131,7 @@ letter:  .byte   $08	;letter shapes
          .byte   $ed
 
          .org    $0100
+
 disnts:  lda     #$01		;reset display note count 
          sta     dntcnt	
 nxtnot:  lda     dntcnt		;test for end
@@ -152,8 +153,8 @@ rpt:     lda     temnot		;test for second
          inx
          jmp     rpt
 
-sub:     sec			;test for first 
-         txa			;group 
+sub:     sec				;test for first 
+         txa				;group 
          sbc     hinote
          bcs     nxgrpa
          lda     ntshp,x	;store note shape 
@@ -163,9 +164,9 @@ sub:     sec			;test for first
          sta     dthree
          jmp     dislen
 
-nxgrpa:  sec			;test for second 
-         txa			;group 
-         sbc     shpnot
+nxgrpa:  sec				;test for second 
+         txa				;group 
+         sbc     #$0e
          bcs     nxgrpb
          txa
          sbc     #$06		;store note shape 
@@ -178,8 +179,8 @@ nxgrpa:  sec			;test for second
          sta     dthree
          jmp     dislen
 
-nxgrpb:  sec			;test for third
-         txa			;group 
+nxgrpb:  sec				;test for third
+         txa				;group 
          sbc     #hishrp
          bcs     nxgrpc
          txa
@@ -193,7 +194,7 @@ nxgrpb:  sec			;test for third
          sta     done
          jmp     dislen
 
-nxgrpc:  sec			;store note shape 
+nxgrpc:  sec				;store note shape 
          txa
          sbc     #hishrp
          tax
@@ -229,9 +230,9 @@ lite:    ldy     #$ff		;and display
          sta     sbd	
          lda     count,x
          sta     sad
-wait:    dey			;delay 
+wait:    dey				;delay 
          bne     wait
-         dex			;get next letter 
+         dex				;get next letter 
          bpl     lite
          ldy     delayc		;delay 
          dey
@@ -250,14 +251,15 @@ wait:    dey			;delay
 next:    jsr     delay
          inc     dntcnt		;increment display note 
          ldx     #$ff		;count reset stack
-         txs			;pointer 
-         nop			;padding
+         txs				;pointer 
+         nop				;padding
          nop
          jmp     nxtnot
 
 doagnb:  lda     #$00
          sta     notcnt
          jmp     nutune
+
 
 ;main program 
          .org    $0200
@@ -340,7 +342,7 @@ doagn:   lda     #$00		;reset note counter
          sta     notcnt		
          ldx     #$ff		;reset stack pointer 
          txs
-         nop			;padding 
+         nop				;padding 
          nop
          jmp     nutune
 
@@ -351,34 +353,36 @@ dnotes:  ldx     #$ff		;reset stack pointer
          jmp     disnts		;jump to display notes 
 
 delay:	 lda 	 deltim		;get delay value 
-	 sta 	 timed
+		 sta 	 timed
 dela: 	 lda 	 #$ff		;load timer 
-	 sta 	 timer
+		 sta 	 timer
 test: 	 bit	 ttimer		;test timer
- 	 bpl	 test		;branch if not run out
-	 dec 	 timec		;reduce time value
-	 bne	 dela		;start again 
-	 dec 	 timed		;reduce delay value 
-	 bne	 timea		;branch if not done 
-	 rts
+ 		 bpl	 test		;branch if not run out
+		 dec 	 timec		;reduce time value
+		 bne	 dela		;start again 
+		 dec 	 timed		;reduce delay value 
+		 bne	 dela		;branch if not done 
+		 rts
+
 
 	;tone subroutine
 		 .org 	 $02dd
 tone: 	 lda 	 #$01		;open port
-	 sta	 padd		
+		 sta	 padd		
 sound: 	 lda 	 #$20		;start timer 
-	 sta	 stimer
+		 sta	 stimer
 notex: 	 ldx 	 prmnot		;note freq
 nwait:	 dex	
-	 bne 	 nwait
-	 inc	 pad		;toggle output
-	 lda	 #$80		;test counter 
-	 bit 	 ttimer
-	 bmi 	 timout
-	 jmp 	 notex
+		 bne 	 nwait
+		 inc	 pad		;toggle output
+		 lda	 #$80		;test counter 
+		 bit 	 ttimer
+		 bmi 	 timout
+		 jmp 	 notex
 timout:  dec 	 plenth		;note length
-	 bne 	 sound
-	 rts
+		 bne 	 sound
+		 rts
+
 
 ;play tune subroutine 
          .org    $0300
@@ -421,6 +425,7 @@ savex:   lda     #$00		;reset save flag
          jsr     disply
          jmp     platun
 
+
 ;get hi subroutine 
          .org    $0356
 gethi:   jsr     keyin		;test for hi note 
@@ -447,10 +452,11 @@ getsrp:  jsr     keyin		;test for sharp note
          bne     retrnc
          lda     #$01		;load sharp flag 
          sta     shpflg
-loadhi:  ldx     pntptr		;load sharp note 
+		 ldx     pntptr		;load sharp note 
          lda     shpnot,x
          sta     tnote
 retrnc:  rts
+
 
 ;display save subroutine 
          .org    $03aa
@@ -464,9 +470,9 @@ light:   ldy     #$ff		;and delay
          sta     sbd
          lda     letter,x
          sta     sad
-waity:   dey			;delay 
+waity:   dey				;delay 
          bne     waity
-         dex			;get next letter 
+         dex				;get next letter 
          bpl     light
          ldy     delayc		;delay 
          dey
