@@ -18,9 +18,9 @@ padd 	 .equ 	 $1701 	;data direction register
 timer	 .equ 	 $1704	;set Timer
 ttimer	 .equ 	 $1707	;test Timer
 stimer	 .equ 	 $170f	;start Timer
-sad	 	 .equ 	 $1740	;System Data Register A
+sad	 .equ 	 $1740	;System Data Register A
 sadd	 .equ 	 $1741	;System Data direction A
-sbd	 	 .equ 	 $1742	;System Data Register B
+sbd	 .equ 	 $1742	;System Data Register B
 pbdd	 .equ 	 $1743	;System Data Direction B
 keyin	 .equ 	 $1f40 	;Keypad input
 getkey	 .equ 	 $1f6a	;get Keyboard input
@@ -152,8 +152,8 @@ rpt:     lda     temnot		;test for second
          inx
          jmp     rpt
 
-sub:     sec				;test for first 
-         txa				;group 
+sub:     sec			;test for first 
+         txa			;group 
          sbc     hinote
          bcs     nxgrpa
          lda     ntshp,x	;store note shape 
@@ -163,8 +163,8 @@ sub:     sec				;test for first
          sta     dthree
          jmp     dislen
 
-nxgrpa:  sec				;test for second 
-         txa				;group 
+nxgrpa:  sec			;test for second 
+         txa			;group 
          sbc     shpnot
          bcs     nxgrpb
          txa
@@ -178,8 +178,8 @@ nxgrpa:  sec				;test for second
          sta     dthree
          jmp     dislen
 
-nxgrpb:  sec				;test for third
-         txa				;group 
+nxgrpb:  sec			;test for third
+         txa			;group 
          sbc     #hishrp
          bcs     nxgrpc
          txa
@@ -193,7 +193,7 @@ nxgrpb:  sec				;test for third
          sta     done
          jmp     dislen
 
-nxgrpc:  sec				;store note shape 
+nxgrpc:  sec			;store note shape 
          txa
          sbc     #hishrp
          tax
@@ -229,9 +229,9 @@ lite:    ldy     #$ff		;and display
          sta     sbd	
          lda     count,x
          sta     sad
-wait:    dey				;delay 
+wait:    dey			;delay 
          bne     wait
-         dex				;get next letter 
+         dex			;get next letter 
          bpl     lite
          ldy     delayc		;delay 
          dey
@@ -250,8 +250,8 @@ wait:    dey				;delay
 next:    jsr     delay
          inc     dntcnt		;increment display note 
          ldx     #$ff		;count reset stack
-         txs				;pointer 
-         nop				;padding
+         txs			;pointer 
+         nop			;padding
          nop
          jmp     nxtnot
 
@@ -340,7 +340,7 @@ doagn:   lda     #$00		;reset note counter
          sta     notcnt		
          ldx     #$ff		;reset stack pointer 
          txs
-         nop				;padding 
+         nop			;padding 
          nop
          jmp     nutune
 
@@ -351,34 +351,34 @@ dnotes:  ldx     #$ff		;reset stack pointer
          jmp     disnts		;jump to display notes 
 
 delay:	 lda 	 deltim		;get delay value 
-		 sta 	 timed
+	 sta 	 timed
 dela: 	 lda 	 #$ff		;load timer 
-		 sta 	 timer
+	 sta 	 timer
 test: 	 bit	 ttimer		;test timer
- 		 bpl	 test		;branch if not run out
-		 dec 	 timec		;reduce time value
-		 bne	 dela		;start again 
-		 dec 	 timed		;reduce delay value 
-		 bne	 timea		;branch if not done 
-		 rts
+ 	 bpl	 test		;branch if not run out
+	 dec 	 timec		;reduce time value
+	 bne	 dela		;start again 
+	 dec 	 timed		;reduce delay value 
+	 bne	 timea		;branch if not done 
+	 rts
 
 	;tone subroutine
 		 .org 	 $02dd
 tone: 	 lda 	 #$01		;open port
-		 sta	 padd		
+	 sta	 padd		
 sound: 	 lda 	 #$20		;start timer 
-		 sta	 stimer
+	 sta	 stimer
 notex: 	 ldx 	 prmnot		;note freq
 nwait:	 dex	
-		 bne 	 nwait
-		 inc	 pad		;toggle output
-		 lda	 #$80		;test counter 
-		 bit 	 ttimer
-		 bmi 	 timout
-		 jmp 	 notex
+	 bne 	 nwait
+	 inc	 pad		;toggle output
+	 lda	 #$80		;test counter 
+	 bit 	 ttimer
+	 bmi 	 timout
+	 jmp 	 notex
 timout:  dec 	 plenth		;note length
-		 bne 	 sound
-		 rts
+	 bne 	 sound
+	 rts
 
 ;play tune subroutine 
          .org    $0300
@@ -464,9 +464,9 @@ light:   ldy     #$ff		;and delay
          sta     sbd
          lda     letter,x
          sta     sad
-waity:   dey				;delay 
+waity:   dey			;delay 
          bne     waity
-         dex				;get next letter 
+         dex			;get next letter 
          bpl     light
          ldy     delayc		;delay 
          dey
