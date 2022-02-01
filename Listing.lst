@@ -72,8 +72,8 @@ Current file: .\tunesmith.S
 00001F  1  00                    .byte   $00
 000020  1               
 000020  1  02           deltim:  .byte   $02	;Delay time
-000021  1  00           timed:   .byte   $00
-000022  1  00           timec:   .byte   $00
+000021  1  00           timed:    .byte   $00
+000022  1  00           timec:    .byte   $00
 000023  1  00           savflg:  .byte   $00	;save flag
 000024  1  00           tlenth:  .byte   $00	;temp length
 000025  1  00           notptr:  .byte   $00	;note pointer
@@ -136,7 +136,7 @@ Current file: .\tunesmith.S
 00005D  1               
 00005D  1                        .org    $0100
 000100  1               
-000100  1  A9 01        disnts:  lda     #$01	  	;reset display note count
+000100  1  A9 01        disnts:  lda     #$01		;reset display note count
 000102  1  85 37                 sta     dntcnt
 000104  1  A5 37        nxtnot:  lda     dntcnt		;test for end
 000106  1  C5 36                 cmp     notcnt
@@ -150,15 +150,15 @@ Current file: .\tunesmith.S
 000115  1  85 39                 sta     temlen
 000117  1  A2 00                 ldx     #$00
 000119  1  A5 38        rpt:     lda     temnot		;test for second
-00011B  1  C9 01                 cmp     #$01	  	;group
+00011B  1  C9 01                 cmp     #$01		;group
 00011D  1  F0 61                 beq     diszer
 00011F  1  D5 00                 cmp     $00,x
 000121  1  F0 04                 beq     sub
 000123  1  E8                    inx
 000124  1  4C 19 01              jmp     rpt
 000127  1               
-000127  1  38           sub:     sec			      	;test for first
-000128  1  8A                    txa			      	;group
+000127  1  38           sub:     sec				;test for first
+000128  1  8A                    txa				;group
 000129  1  E9 07                 sbc     #$07
 00012B  1  B0 0D                 bcs     nxgrpa
 00012D  1  B5 4C                 lda     ntshp,x	;store note shape
@@ -168,23 +168,23 @@ Current file: .\tunesmith.S
 000135  1  85 3C                 sta     dthree
 000137  1  4C 8A 01              jmp     dislen
 00013A  1               
-00013A  1  38           nxgrpa:  sec			     	   ;test for second
-00013B  1  8A                    txa			    	   ;group
+00013A  1  38           nxgrpa:  sec				;test for second
+00013B  1  8A                    txa				;group
 00013C  1  E9 0E                 sbc     #$0e
 00013E  1  B0 13                 bcs     nxgrpb
 000140  1  8A                    txa
-000141  1  E9 06                 sbc     #$06		   ;store note shape
+000141  1  E9 06                 sbc     #$06		;store note shape
 000143  1  AA                    tax
 000144  1  B5 4C                 lda     ntshp,x
 000146  1  85 3D                 sta     dtwo
-000148  1  A9 F6                 lda     #$f6		    ;store hi shape
+000148  1  A9 F6                 lda     #$f6		;store hi shape
 00014A  1  85 3E                 sta     done
 00014C  1  A9 C0                 lda     #$c0
 00014E  1  85 3C                 sta     dthree
 000150  1  4C 8A 01              jmp     dislen
 000153  1               
-000153  1  38           nxgrpb:  sec			    	;test for third
-000154  1  8A                    txa			    	;group
+000153  1  38           nxgrpb:  sec				;test for third
+000154  1  8A                    txa				;group
 000155  1  E9 15                 sbc     #$15
 000157  1  B0 13                 bcs     nxgrpc
 000159  1  8A                    txa
@@ -198,25 +198,25 @@ Current file: .\tunesmith.S
 000167  1  85 3E                 sta     done
 000169  1  4C 8A 01              jmp     dislen
 00016C  1               
-00016C  1  38           nxgrpc:  sec			        	;store note shape
+00016C  1  38           nxgrpc:  sec				;store note shape
 00016D  1  8A                    txa
 00016E  1  E9 15                 sbc     #hishrp
 000170  1  AA                    tax
 000171  1  B5 4C                 lda     ntshp,x
 000173  1  85 3D                 sta     dtwo
-000175  1  A9 ED                 lda     #$ed	    	;store sharp note
+000175  1  A9 ED                 lda     #$ed		;store sharp note
 000177  1  85 3C                 sta     dthree
 000179  1  A9 F6                 lda     #$f6
 00017B  1  85 3E                 sta     done
 00017D  1  4C 8A 01              jmp     dislen
 000180  1               
-000180  1  A9 BF        diszer:  lda     #$bf	    	;store zero shape
+000180  1  A9 BF        diszer:  lda     #$bf		;store zero shape
 000182  1  85 3D                 sta     dtwo
 000184  1  A9 C0                 lda     #$c0
 000186  1  85 3E                 sta     done
 000188  1  85 3C                 sta     dthree
 00018A  1  A2 00        dislen:  ldx     #$00
-00018C  1  A5 39        rptb:    lda     temlen		  ;test for length
+00018C  1  A5 39        rptb:    lda     temlen		;test for length
 00018E  1  D5 44                 cmp     lnth,x
 000190  1  F0 04                 beq     gtshp
 000192  1  E8                    inx
@@ -224,21 +224,21 @@ Current file: .\tunesmith.S
 000196  1               
 000196  1  B5 48        gtshp:   lda     lnshp,x	;store length shape
 000198  1  85 3B                 sta     dfour
-00019A  1  A9 80        dis:     lda     #$80		  ;load display
+00019A  1  A9 80        dis:     lda     #$80		;load display
 00019C  1  85 33                 sta     delayc		;length time
-00019E  1  A9 7F                 lda     #$7f		  ;set direction reg
+00019E  1  A9 7F                 lda     #$7f		;set direction reg
 0001A0  1  8D 41 17              sta     sadd
-0001A3  1  A2 04        rptc:    ldx     #$04		  ;up to 4 letters
-0001A5  1  A0 FF        lite:    ldy     #$ff	  	;and display
+0001A3  1  A2 04        rptc:    ldx     #$04		;up to 4 letters
+0001A5  1  A0 FF        lite:    ldy     #$ff		;and display
 0001A7  1  B5 53                 lda     letnum,x	;light letters
 0001A9  1  8D 42 17              sta     sbd
 0001AC  1  B5 3A                 lda     count,x
 0001AE  1  8D 40 17              sta     sad
-0001B1  1  88           wait:    dey				      ;delay
+0001B1  1  88           wait:    dey				;delay
 0001B2  1  D0 FD                 bne     wait
-0001B4  1  CA                    dex			      	;get next letter
+0001B4  1  CA                    dex				;get next letter
 0001B5  1  10 EE                 bpl     lite
-0001B7  1  A4 33                 ldy     delayc	  	;delay
+0001B7  1  A4 33                 ldy     delayc		;delay
 0001B9  1  88                    dey
 0001BA  1  84 33                 sty     delayc
 0001BC  1  D0 E5                 bne     rptc
@@ -254,9 +254,9 @@ Current file: .\tunesmith.S
 0001D4  1               
 0001D4  1  20 AC 02     next:    jsr     delay
 0001D7  1  E6 37                 inc     dntcnt		;increment display note
-0001D9  1  A2 FF                 ldx     #$ff	  	;count reset stack
-0001DB  1  9A                    txs			      	;pointer
-0001DC  1  EA                    nop			      	;padding
+0001D9  1  A2 FF                 ldx     #$ff		;count reset stack
+0001DB  1  9A                    txs				;pointer
+0001DC  1  EA                    nop				;padding
 0001DD  1  EA                    nop
 0001DE  1  4C 04 01              jmp     nxtnot
 0001E1  1               
@@ -267,7 +267,7 @@ Current file: .\tunesmith.S
 0001E8  1               
 0001E8  1               ;main program
 0001E8  1                        .org    $0200
-000200  1  A9 00        nutune:  lda     #$00	  	;initialize tune
+000200  1  A9 00        nutune:  lda     #$00		;initialize tune
 000202  1  85 23                 sta     savflg
 000204  1  85 2A                 sta     notnum
 000206  1  85 2C                 sta     fstflg
@@ -277,7 +277,7 @@ Current file: .\tunesmith.S
 00020E  1  85 27                 sta     tnote
 000210  1  A9 10                 lda     #$10
 000212  1  85 24                 sta     tlenth
-000214  1  A9 06        nunote:  lda     #$06		   ;initialize note
+000214  1  A9 06        nunote:  lda     #$06		;initialize note
 000216  1  85 25                 sta     notptr
 000218  1  A9 0F                 lda     #$0f
 00021A  1  85 26                 sta     keyptr
@@ -285,7 +285,7 @@ Current file: .\tunesmith.S
 00021F  1  20 6A 1F              jsr     getkey
 000222  1  C5 26                 cmp     keyptr
 000224  1  F0 2D                 beq     gtnote
-000226  1  C9 00                 cmp     #$00	  	;for rest
+000226  1  C9 00                 cmp     #$00		;for rest
 000228  1  F0 20                 beq     gtrest
 00022A  1  A5 2C                 lda     fstflg		;test for first time
 00022C  1  C9 00                 cmp     #$00
@@ -306,12 +306,12 @@ Current file: .\tunesmith.S
 000246  1  10 D4                 bpl     playb
 000248  1  30 CA                 bmi     nunote
 00024A  1               
-00024A  1  A9 01        gtrest:  lda     #$01		  ;load rest
+00024A  1  A9 01        gtrest:  lda     #$01		;load rest
 00024C  1  85 2C                 sta     fstflg
 00024E  1  85 27                 sta     tnote
 000250  1  4C 65 02              jmp     svnote
 000253  1               
-000253  1  A9 01        gtnote:  lda     #$01		  ;load forst note flag
+000253  1  A9 01        gtnote:  lda     #$01		;load forst note flag
 000255  1  85 2C                 sta     fstflg
 000257  1  A6 25                 ldx     notptr		;load chosen note
 000259  1  A9 00                 lda     #$00
@@ -330,62 +330,62 @@ Current file: .\tunesmith.S
 000279  1  F0 16                 beq     save
 00027B  1  20 40 1F              jsr     keyin		;test for start over
 00027E  1  20 6A 1F              jsr     getkey
-000281  1  C9 11                 cmp     #$11		  ;DA = do again
+000281  1  C9 11                 cmp     #$11		;DA = do again
 000283  1  F0 13                 beq     doagn
 000285  1  20 40 1F              jsr     keyin		;test for display note
 000288  1  20 6A 1F              jsr     getkey
-00028B  1  C9 12                 cmp     #$12		  ;=+
+00028B  1  C9 12                 cmp     #$12		;=+
 00028D  1  F0 15                 beq     dnotes
 00028F  1  D0 8B                 bne     playb
 000291  1               
-000291  1  A9 01        save:    lda     #$01		  ;save note
+000291  1  A9 01        save:    lda     #$01		;save note
 000293  1  85 23                 sta     savflg
 000295  1  4C 14 02              jmp     nunote
 000298  1               
-000298  1  A9 00        doagn:   lda     #$00		  ;reset note counter
+000298  1  A9 00        doagn:   lda     #$00		;reset note counter
 00029A  1  85 36                 sta     notcnt
-00029C  1  A2 FF                 ldx     #$ff		  ;reset stack pointer
+00029C  1  A2 FF                 ldx     #$ff		;reset stack pointer
 00029E  1  9A                    txs
-00029F  1  EA                    nop			      	;padding
+00029F  1  EA                    nop				;padding
 0002A0  1  EA                    nop
 0002A1  1  4C 00 02              jmp     nutune
 0002A4  1               
-0002A4  1  A2 FF        dnotes:  ldx   #$ff		;reset stack pointer
+0002A4  1  A2 FF        dnotes:  ldx     #$ff		;reset stack pointer
 0002A6  1  9A                    txs
 0002A7  1  EA                    nop
 0002A8  1  EA                    nop
-0002A9  1  4C 00 01              jmp   disnts		;jump to display notes
+0002A9  1  4C 00 01              jmp     disnts		;jump to display notes
 0002AC  1               
-0002AC  1  A5 20        delay:	 lda 	 deltim		  ;get delay value
-0002AE  1  85 21        		     sta 	 timed
-0002B0  1  A9 FF        dela: 	 lda 	 #$ff		    ;load timer
-0002B2  1  8D 04 17     		     sta 	 timer
-0002B5  1  2C 07 17     test: 	 bit	 ttimer	   	;test timer
-0002B8  1  10 FB             		 bpl	 test		    ;branch if not run out
-0002BA  1  C6 22            		 dec 	 timec	   	;reduce time value
-0002BC  1  D0 F2            		 bne	 dela		    ;start again
-0002BE  1  C6 21            		 dec 	 timed	   	;reduce delay value
-0002C0  1  D0 EE            		 bne	 dela	     	;branch if not done
-0002C2  1  60           	    	 rts
+0002AC  1  A5 20        delay:	 lda 	 deltim		;get delay value
+0002AE  1  85 21        		 sta 	 timed
+0002B0  1  A9 FF        dela: 	 lda 	 #$ff		;load timer
+0002B2  1  8D 04 17     		 sta 	 timer
+0002B5  1  2C 07 17     test: 	 bit	 ttimer		;test timer
+0002B8  1  10 FB         		 bpl	 test		;branch if not run out
+0002BA  1  C6 22        		 dec 	 timec		;reduce time value
+0002BC  1  D0 F2        		 bne	 dela		;start again
+0002BE  1  C6 21        		 dec 	 timed		;reduce delay value
+0002C0  1  D0 EE        		 bne	 dela		;branch if not done
+0002C2  1  60           		 rts
 0002C3  1               
 0002C3  1               
 0002C3  1               	;tone subroutine
-0002C3  1               		     .org 	 $02dd
-0002DD  1  A9 01        tone: 	 lda 	 #$01	    	;open port
-0002DF  1  8D 01 17     	    	 sta	 padd
-0002E2  1  A9 20        sound: 	 lda 	 #$20	    	;start timer
-0002E4  1  8D 0F 17     		     sta	 stimer
-0002E7  1  A6 2B        notex: 	 ldx 	 prmnot  		;note freq
+0002C3  1               		 .org 	 $02dd
+0002DD  1  A9 01        tone: 	 lda 	 #$01		;open port
+0002DF  1  8D 01 17     		 sta	 padd
+0002E2  1  A9 20        sound: 	 lda 	 #$20		;start timer
+0002E4  1  8D 0F 17     		 sta	 stimer
+0002E7  1  A6 2B        notex: 	 ldx 	 prmnot		;note freq
 0002E9  1  CA           nwait:	 dex
-0002EA  1  D0 FD            		 bne 	 nwait
-0002EC  1  EE 00 17          		 inc	 pad		    ;toggle output
-0002EF  1  A9 80            		 lda	 #$80	     	;test counter
-0002F1  1  2C 07 17         		 bit 	 ttimer
-0002F4  1  30 03        	    	 bmi 	 timout
-0002F6  1  4C E7 02     		     jmp 	 notex
-0002F9  1  C6 2D        timout:  dec 	 plenth		  ;note length
-0002FB  1  D0 E5            		 bne 	 sound
-0002FD  1  60           	    	 rts
+0002EA  1  D0 FD        		 bne 	 nwait
+0002EC  1  EE 00 17     		 inc	 pad		;toggle output
+0002EF  1  A9 80        		 lda	 #$80		;test counter
+0002F1  1  2C 07 17     		 bit 	 ttimer
+0002F4  1  30 03        		 bmi 	 timout
+0002F6  1  4C E7 02     		 jmp 	 notex
+0002F9  1  C6 2D        timout:  dec 	 plenth		;note length
+0002FB  1  D0 E5        		 bne 	 sound
+0002FD  1  60           		 rts
 0002FE  1               
 0002FE  1               
 0002FE  1               ;play tune subroutine
@@ -410,15 +410,15 @@ Current file: .\tunesmith.S
 000323  1  85 2B                 sta     prmnot
 000325  1  B5 A8                 lda     lnttbl,x	;load next length
 000327  1  85 2D                 sta     plenth
-000329  1  20 DD 02              jsr     tone	  	;play note
+000329  1  20 DD 02              jsr     tone		;play note
 00032C  1  E6 2F                 inc     nexnot		;set up for
 00032E  1  C6 2E                 dec     tntnum		;next note
 000330  1  10 ED                 bpl     playc
 000332  1  60           return:  rts
 000333  1               
-000333  1  A9 00        savex:   lda     #$00		  ;reset save flag
+000333  1  A9 00        savex:   lda     #$00		;reset save flag
 000335  1  85 23                 sta     savflg
-000337  1  A9 01                 lda     #$01	  	;no play
+000337  1  A9 01                 lda     #$01		;no play
 000339  1  85 27                 sta     tnote
 00033B  1  E6 2A                 inc     notnum		;load note into
 00033D  1  A6 2A                 ldx     notnum		;tunetable
@@ -454,9 +454,9 @@ Current file: .\tunesmith.S
 000389  1  20 6A 1F              jsr     getkey
 00038C  1  C9 05                 cmp     #$05
 00038E  1  D0 0A                 bne     retrnc
-000390  1  A9 01                 lda     #$01	   	;load sharp flag
+000390  1  A9 01                 lda     #$01		;load sharp flag
 000392  1  85 29                 sta     shpflg
-000394  1  A6 32        		 ldx     pntptr	    	;load sharp note
+000394  1  A6 32        		 ldx     pntptr		;load sharp note
 000396  1  B5 0E                 lda     shpnot,x
 000398  1  85 27                 sta     tnote
 00039A  1  60           retrnc:  rts
@@ -464,26 +464,26 @@ Current file: .\tunesmith.S
 00039B  1               
 00039B  1               ;display save subroutine
 00039B  1                        .org    $03aa
-0003AA  1  A9 80        disply:  lda     #$80		  ;load disply
+0003AA  1  A9 80        disply:  lda     #$80		;load disply
 0003AC  1  85 33                 sta     delayc		;ligth time
-0003AE  1  A9 7F                 lda     #$7f		  ;set direction
+0003AE  1  A9 7F                 lda     #$7f		;set direction
 0003B0  1  8D 41 17              sta     sadd
-0003B3  1  A2 04        repeat:  ldx     #$04	    ;4 letters
-0003B5  1  A0 FF        light:   ldy     #$ff		  ;and delay
+0003B3  1  A2 04        repeat:  ldx     #$04		;4 letters
+0003B5  1  A0 FF        light:   ldy     #$ff		;and delay
 0003B7  1  B5 53                 lda     letnum,x	;light letters
 0003B9  1  8D 42 17              sta     sbd
 0003BC  1  B5 58                 lda     letter,x
 0003BE  1  8D 40 17              sta     sad
-0003C1  1  88           waity:   dey				      ;delay
+0003C1  1  88           waity:   dey				;delay
 0003C2  1  D0 FD                 bne     waity
-0003C4  1  CA                    dex				      ;get next letter
+0003C4  1  CA                    dex				;get next letter
 0003C5  1  10 EE                 bpl     light
 0003C7  1  A4 33                 ldy     delayc		;delay
 0003C9  1  88                    dey
 0003CA  1  84 33                 sty     delayc
 0003CC  1  D0 E5                 bne     repeat
 0003CE  1  A5 36                 lda     notcnt		;test for 72 notes
-0003D0  1  C9 48                 cmp     #$48		  ;48 hex is 72 dec
+0003D0  1  C9 48                 cmp     #$48		;48 hex is 72 dec
 0003D2  1  D0 03                 bne     incnot
 0003D4  1  4C 00 01              jmp     disnts
 0003D7  1               
@@ -491,7 +491,7 @@ Current file: .\tunesmith.S
 0003D9  1  60                    rts
 0003DA  1               
 0003DA  1               ;get length subroutine
-0003DA  1  A9 03        gtlnth:  lda     #$03		   ;load length pointer
+0003DA  1  A9 03        gtlnth:  lda     #$03		;load length pointer
 0003DC  1  85 3F                 sta     lntptr
 0003DE  1  20 40 1F     keytst:  jsr     keyin		;test keypad for
 0003E1  1  20 6A 1F              jsr     getkey		;length
