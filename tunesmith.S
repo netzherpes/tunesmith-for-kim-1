@@ -1,4 +1,4 @@
-.segment = "CODE"
+
  ;*****************************
  ;* KIM - The Tunesmith       *
  ;*                           *
@@ -46,7 +46,7 @@ hinote:  .byte   $7b	;G
          .byte   $48	;E
          .byte   $43	;F
 		 
-shpnot:  .byte   $ed	;G_sharp, A_flat
+shpnot: .byte   $ed	;G_sharp, A_flat
          .byte   $d2	;A_sharp, B_flat
          .byte   $01	;and so on
          .byte   $b0
@@ -68,8 +68,8 @@ hishrp:  .byte   $74	;G_sharp, A_flat
          .byte   $00
 
 deltim:  .byte   $02	;Delay time
-timed:   .byte   $00
-timec:   .byte   $00
+timed:    .byte   $00
+timec:    .byte   $00
 savflg:  .byte   $00	;save flag 
 tlenth:  .byte   $00	;temp length 
 notptr:  .byte   $00	;note pointer 
@@ -124,7 +124,7 @@ letnum:  .byte   $00 	;letter number
          .byte   $0d
          .byte   $0b
          .byte   $09
-letter:  .byte   $08	;letter shapes 
+letter:  .byte   $00	;letter shapes 
          .byte   $f9
          .byte   $be
          .byte   $f7
@@ -155,7 +155,7 @@ rpt:     lda     temnot		;test for second
 
 sub:     sec				;test for first 
          txa				;group 
-         sbc     hinote
+         sbc     #$07
          bcs     nxgrpa
          lda     ntshp,x	;store note shape 
          sta     dtwo
@@ -181,7 +181,7 @@ nxgrpa:  sec				;test for second
 
 nxgrpb:  sec				;test for third
          txa				;group 
-         sbc     #hishrp
+         sbc     #$15
          bcs     nxgrpc
          txa
          sbc     #$0d		;store note shape 
@@ -309,7 +309,7 @@ gtrest:  lda     #$01		;load rest
 
 gtnote:  lda     #$01		;load forst note flag 
          sta     fstflg
-         ldx     keyptr		;load chosen note 
+         ldx     notptr		;load chosen note 
          lda     #$00
          sta     hiflg
          sta     shpflg
@@ -414,7 +414,7 @@ return:  rts
 
 savex:   lda     #$00		;reset save flag 
          sta     savflg
-         lda     #$00		;no play 
+         lda     #$01		;no play 
          sta     tnote
          inc     notnum		;load note into 
          ldx     notnum		;tunetable 	
