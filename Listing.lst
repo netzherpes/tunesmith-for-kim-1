@@ -128,13 +128,14 @@ Current file: .\tunesmith.S
 000055  1  0D                    .byte   $0d
 000056  1  0B                    .byte   $0b
 000057  1  09                    .byte   $09
-000058  1  08           letter:  .byte   $08	;letter shapes
+000058  1  00           letter:  .byte   $00	;letter shapes
 000059  1  F9                    .byte   $f9
 00005A  1  BE                    .byte   $be
 00005B  1  F7                    .byte   $f7
 00005C  1  ED                    .byte   $ed
 00005D  1               
 00005D  1                        .org    $0100
+000100  1               
 000100  1  A9 01        disnts:  lda     #$01		;reset display note count
 000102  1  85 37                 sta     dntcnt
 000104  1  A5 37        nxtnot:  lda     dntcnt		;test for end
@@ -158,7 +159,7 @@ Current file: .\tunesmith.S
 000127  1               
 000127  1  38           sub:     sec				;test for first
 000128  1  8A                    txa				;group
-000129  1  E5 07                 sbc     hinote
+000129  1  E9 07                 sbc     #$07
 00012B  1  B0 0D                 bcs     nxgrpa
 00012D  1  B5 4C                 lda     ntshp,x	;store note shape
 00012F  1  85 3D                 sta     dtwo
@@ -184,7 +185,7 @@ Current file: .\tunesmith.S
 000153  1               
 000153  1  38           nxgrpb:  sec				;test for third
 000154  1  8A                    txa				;group
-000155  1  E9 15                 sbc     #hishrp
+000155  1  E9 15                 sbc     #$15
 000157  1  B0 13                 bcs     nxgrpc
 000159  1  8A                    txa
 00015A  1  E9 0D                 sbc     #$0d		;store note shape
@@ -312,7 +313,7 @@ Current file: .\tunesmith.S
 000253  1               
 000253  1  A9 01        gtnote:  lda     #$01		;load forst note flag
 000255  1  85 2C                 sta     fstflg
-000257  1  A6 26                 ldx     keyptr		;load chosen note
+000257  1  A6 25                 ldx     notptr		;load chosen note
 000259  1  A9 00                 lda     #$00
 00025B  1  85 28                 sta     hiflg
 00025D  1  85 29                 sta     shpflg
@@ -417,7 +418,7 @@ Current file: .\tunesmith.S
 000333  1               
 000333  1  A9 00        savex:   lda     #$00		;reset save flag
 000335  1  85 23                 sta     savflg
-000337  1  A9 00                 lda     #$00		;no play
+000337  1  A9 01                 lda     #$01		;no play
 000339  1  85 27                 sta     tnote
 00033B  1  E6 2A                 inc     notnum		;load note into
 00033D  1  A6 2A                 ldx     notnum		;tunetable
