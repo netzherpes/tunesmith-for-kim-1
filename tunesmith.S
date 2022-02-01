@@ -18,9 +18,9 @@ padd 	 = 	 $1701 	;data direction register
 timer	 = 	 $1704	;set Timer
 ttimer	 = 	 $1707	;test Timer
 stimer	 = 	 $170f	;start Timer
-sad	 	 = 	 $1740	;System Data Register A
+sad	 = 	 $1740	;System Data Register A
 sadd	 = 	 $1741	;System Data direction A
-sbd	 	 = 	 $1742	;System Data Register B
+sbd	 = 	 $1742	;System Data Register B
 pbdd	 = 	 $1743	;System Data Direction B
 keyin	 = 	 $1f40 	;Keypad input
 getkey	 = 	 $1f6a	;get Keyboard input
@@ -353,35 +353,35 @@ dnotes:  ldx     #$ff		;reset stack pointer
          jmp     disnts		;jump to display notes 
 
 delay:	 lda 	 deltim		;get delay value 
-		 sta 	 timed
+	 sta 	 timed
 dela: 	 lda 	 #$ff		;load timer 
-		 sta 	 timer
+	 sta 	 timer
 test: 	 bit	 ttimer		;test timer
- 		 bpl	 test		;branch if not run out
-		 dec 	 timec		;reduce time value
-		 bne	 dela		;start again 
-		 dec 	 timed		;reduce delay value 
-		 bne	 dela		;branch if not done 
-		 rts
+ 	 bpl	 test		;branch if not run out
+	 dec 	 timec		;reduce time value
+	 bne	 dela		;start again 
+	 dec 	 timed		;reduce delay value 
+	 bne	 dela		;branch if not done 
+	 rts
 
 
 	;tone subroutine
-		 .org 	 $02dd
+	 .org 	 $02dd
 tone: 	 lda 	 #$01		;open port
-		 sta	 padd		
+	 sta	 padd		
 sound: 	 lda 	 #$20		;start timer 
-		 sta	 stimer
+	 sta	 stimer
 notex: 	 ldx 	 prmnot		;note freq
 nwait:	 dex	
-		 bne 	 nwait
-		 inc	 pad		;toggle output
-		 lda	 #$80		;test counter 
-		 bit 	 ttimer
-		 bmi 	 timout
-		 jmp 	 notex
+	 bne 	 nwait
+	 inc	 pad		;toggle output
+	 lda	 #$80		;test counter 
+	 bit 	 ttimer
+	 bmi 	 timout
+	 jmp 	 notex
 timout:  dec 	 plenth		;note length
-		 bne 	 sound
-		 rts
+	 bne 	 sound
+	 rts
 
 
 ;play tune subroutine 
