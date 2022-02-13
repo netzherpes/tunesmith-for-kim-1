@@ -18,10 +18,13 @@ To save a note press '3'
 The song will continue to play from the first note on.
 
 If you have listened to your song, you can write it down by pressing '+'on the keypad and shuffle through the notes wie '3' on the keypad. The song will be shown on the lc display note by note. on the LCD:  
-digit | 1 octave
-digit | 2 note 
-digit | 3 sharp or not
-digit | 4 length
+
+| digit | meaning |
+---
+| 1 | octave |
+| 2 | note |
+| 3 | sharp or not |
+| 4 | length |
 
 
 If you want to go on composing the coldstart is at location $021C
