@@ -13,7 +13,7 @@ Load both papertape file and start the progam at location $0200
 
 Type in the notes with the corresponding letters A - F on the keypad; 9 stands for note G.<br>
 After the note you can set the upper octave with '7' and halfnotes ('sharp notes') with '5' <br>
-The length can be set with 1,2,4,8 as a full, hasf, quater or eighth note.<br>
+The length can be set with 1,2,4,8 as a full, half, quater or eighth note.<br>
 To save a note press '3'<br>
 The song will continue to play from the first note on.<br>
 
